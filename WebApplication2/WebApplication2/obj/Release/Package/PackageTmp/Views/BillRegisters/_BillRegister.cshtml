@@ -1,0 +1,69 @@
+﻿@model PagedList.IPagedList<WebApplication2.Models.BillRegister>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+
+<div id="billReg">
+    <table class="table">
+        <tr>
+            <th>
+               Member Id
+            </th>
+            <th>
+               Organization Name
+            </th>
+            <th>
+                Bill No
+            </th>
+            <th>
+               Bill Date
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+               Remarks
+            </th>
+            <th>
+                Paid
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemeberCompanyInfo.mid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemeberCompanyInfo.Organization_Name)
+                </td>
+                <td>@Html.DisplayFor(modelItem=>item.BillID)</td>
+                <td>
+                    @{
+                        string parameterValue = item.BillDate.ToShortDateString();
+                    }
+                    @Html.DisplayFor(modelItem => parameterValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.paid)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BillID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.BillID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.BillID })
+                </td>
+            </tr>
+                        }
+
+    </table>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentMemerid = ViewBag.currentMemerid, currentBillID = ViewBag.currentBillID, CurrsDate = ViewBag.CurrsDate, curreDate = ViewBag.curreDate }))
+</div>

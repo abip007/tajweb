@@ -1,0 +1,262 @@
+﻿@model WebApplication2.Models.BillRegister
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+    <div class="form-horizontal">
+        <h4>BillRegister</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.BillDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BillDate, new { htmlAttributes = new { @class = "form-control" } })
+                <span class="error">Valid order date required (ex. MM-dd-yyyy)</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.memberId, "memberId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.memberId, new { htmlAttributes = new { @class = "form-control" } })
+                <span class="error">Member Id Required</span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="orgTrade" class="control-label col-md-2">Organizaion Name</label>
+            <div class="col-md-10">
+                  @*@Html.Label("org_name", htmlAttributes: new { id = "org_name", @class = "form-control" })
+                  <span class="error">Organization Name Required</span>*@
+                @*@Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })*@
+                <input type="text"  id="org_name" readonly name="org_name" class="form-control" />
+                <input type="hidden" id="memid"  name="memid" class="form-control" />
+                
+                <span class="error">Organization Name Required</span>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="orgTrade" class="control-label col-md-2">Income Head</label>
+            <div class="col-md-10">
+                @Html.DropDownList("HeaderId", null, htmlAttributes: new { @class = "form-control" })
+
+                
+            </div>
+        </div>
+            <div>
+                <div class="form-group">
+                    <label for="orgTrade" class="control-label col-md-2">Amount</label>
+                    <div class="col-md-10">
+                        <input type="text" id="amt" name="amt" value="0" class = "form-control" />
+                        <span class="error">Please Enter Amount</span>
+
+                    </div>
+                </div>
+                <div>
+
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" id="add" value="add" class="success" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div  class="col-md-offset-2 col-md-10 tablecontainer" id="orderItems" ">
+
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input id="submit" type="button" value="Save" style="padding:10px 20px" />
+                        </div>
+                    </div>
+
+                </div>
+        </div>
+        </div>
+        
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<style>
+    /*Adding some css for looks good*/
+    span.error {
+        display: block;
+        visibility: hidden;
+        color: red;
+        font-size: 90%;
+    }
+</style>
+    <script > $(function () {
+            $('#BillDate').datepicker({
+                dateFormat: 'dd-mm-yy'
+            });
+        }); $(document).ready(function () {
+
+
+        var billItems = [];
+        $('#memberId').change(function () {
+            var memberId = this.value;
+            //alert(Shipid);
+
+            $.getJSON("/Member/GetRecordById",
+                {
+                    memberid: memberId
+                },
+                function (data) {
+                    //alert(data.Organization_Name);
+                    $('#org_name').val(data.Organization_Name);
+                    $('#memid').val(data.memid);
+
+                });
+
+
+        });
+        $('#add').click(function () {
+            //Check validation of order item
+            
+            var isValidItem = true;
+            if (!($('#amt').val().trim() != '' && !isNaN($('#amt').val().trim()) && (parseInt($('#amt').val()) || 0))) {
+                isValidItem = false;
+                $('#amt').siblings('span.error').css('visibility', 'visible');
+            }
+            else {
+                $('#amt').siblings('span.error').css('visibility', 'hidden');
+            }
+
+            
+
+
+        if (isValidItem) {
+            billItems.push({
+                HeaderId: $('#HeaderId').val().trim(),
+                HeaderText: $('#HeaderId :selected').text().trim(),
+                Amount: parseFloat($('#amt').val().trim())
+
+            });
+            console.log(billItems);
+            //Clear fields
+            $('#HeaderId').focus();
+            $('#amt').val('');
+
+        }
+        GeneratedItemsTable();
+        });
+        $('#submit').click(function () {
+            //validation of order
+            var isAllValid = true;
+            if (billItems.length == 0) {
+                $('#orderItems').html('<span style="color:red;">Please add Bill items</span>');
+                isAllValid = false;
+            }
+
+            
+
+            if ($('#BillDate').val().trim() == '') {
+                $('#BillDate').siblings('span.error').css('visibility', 'visible');
+                isAllValid = false;
+            }
+            else {
+                $('#BillDate').siblings('span.error').css('visibility', 'hidden');
+            }
+            if (!($('#memberId').val().trim() != '' && !isNaN($('#memberId').val().trim()) && (parseInt($('#memberId').val()) || 0))) {
+                isValidItem = false;
+                $('#memberId').siblings('span.error').css('visibility', 'visible');
+            }
+            else {
+                $('#memberId').siblings('span.error').css('visibility', 'hidden');
+            }
+            if (!($('#org_name').val().trim() != '')) {
+                isValidItem = false;
+                $('#org_name').siblings('span.error').css('visibility', 'visible');
+            }
+            else {
+                $('#org_name').siblings('span.error').css('visibility', 'hidden');
+            }
+           
+            //Save if valid
+            if (isAllValid) {
+                //alert($('#BillDate').val().trim());
+                var data = {
+
+                    BillDate: $('#BillDate').val().trim(),
+                    memberId: $('#memid').val().trim(),
+                    Remarks: $('#Remarks').val().trim(),
+                    BillDetail: billItems
+                }
+
+                $(this).val('Please wait...');
+                console.log(data);
+                $.ajax({
+                    url: '/BillRegisters/SaveOrder',
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "JSON",
+                    contentType: "application/json",
+                    success: function (d) {
+                        //check is successfully save to database
+                        if (d.status == true) {
+                            //will send status from server side
+                            alert('Successfully done.');
+                            //clear form
+                            billItems = [];
+
+                           
+                            $('#orderItems').empty();
+                        }
+                        else {
+                            alert('Failed');
+                        }
+                        $('#submit').val('Save');
+                    },
+                    error: function () {
+                        alert('Error. Please try again.');
+                        $('#submit').val('Save');
+                    }
+                });
+            }
+
+        });
+        function GeneratedItemsTable() {
+            if (billItems.length > 0) {
+                var $table = $('<table/>');
+                $table.append('<thead><tr><th>Head</th><th>Amount</th>');
+                var $tbody = $('<tbody/>');
+                $.each(billItems, function (i, val) {
+                    var $row = $('<tr/>');
+                    $row.append($('<td/>').html(val.HeaderText));
+                    $row.append($('<td/>').html(val.Amount));
+                    var $remove = $('<a href="#">Remove</a>');
+                    $remove.click(function (e) {
+                        e.preventDefault();
+                        billItems.splice(i, 1);
+                        GeneratedItemsTable();
+                    });
+                    $row.append($('<td/>').html($remove));
+                    $tbody.append($row);
+                });
+                console.log("current", billItems);
+                $table.append($tbody);
+                $('#orderItems').html($table);
+            }
+            else {
+                $('#orderItems').html('');
+            }
+        }
+    }); </script >

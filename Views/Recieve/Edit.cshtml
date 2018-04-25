@@ -1,0 +1,216 @@
+﻿@model WebApplication2.Models.RecieveMaster
+@using WebApplication2.Models
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>RecieveMaster</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.rid)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.rDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.rDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.rDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.memberId, "memberId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("memberId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.memberId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.billId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (!String.IsNullOrEmpty(Model.billId))
+                {
+                    string[] bi = Model.billId.Split(',');
+                    foreach (var ch in bi)
+                    {
+                        <input type="checkbox" id="billId" name="billId" checked value="@ch" /> @ch
+                    }
+                }
+                @{
+                    var Billlnew = ViewBag.bill;
+
+                    foreach (var ch in Billlnew)
+                    {
+                <input type="checkbox" id="billId" name="billId"  value="@ch" /> @ch
+                        }
+                    }
+                @*@Html.EditorFor(model => model.billId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.billId, "", new { @class = "text-danger" })*@
+            <input type="hidden" id="obillid" name="obillid" value="@Model.billId" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="orgTrade" class="control-label col-md-2">Income Head</label>
+            <div class="col-md-10">
+                @Html.DropDownList("HeaderId", null, htmlAttributes: new { @class = "form-control" })
+
+
+            </div>
+        </div>
+      
+            <div class="form-group">
+                <label for="orgTrade" class="control-label col-md-2">Amount</label>
+                <div class="col-md-10">
+                    <input type="text" id="amt" name="amt" value="0" class="form-control" />
+                    <span class="error">Please Enter Amount</span>
+
+                </div>
+            </div>
+            <div>
+
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" id="add" value="add" class="success" />
+                </div>
+            </div>
+
+            <table class="table" id="billdetail">
+                <tr>
+                    <th>
+                        Header
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th></th>
+                </tr>
+                @{
+
+                }
+                @foreach (var item in Model.RecieveDetail)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Header.HeaderName)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(modelItem => item.Amount, new { @id = "amount" + item.rdid, @class = "amount" })
+                            <div id="upd"></div>
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("DeleteLine", "DeleteLine", new { id = item.rdid })
+
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+                $(document).ready(function () {
+                    //Price Change
+                    $(".amount").change(function () {
+                        var amount = this.value;
+                        alert(amount);
+                        var id = $(this).attr("id");
+                        var lineidd = id.replace('amount', '');
+                        //var soid = $('#SoId').val();
+                        $.post("/MMS/Recieve/updateAmount",
+                            {
+                                rdid: lineidd,
+                                amount: amount
+                            },
+                            function (data) {
+                                $('#upd').text('Updated..');
+
+                            });
+                        //alert();
+
+                    });
+                    $('#add').click(function () {
+                        //Check validation of order item
+
+                        var isValidItem = true;
+                        if (!($('#amt').val().trim() != '' && !isNaN($('#amt').val().trim()) && (parseInt($('#amt').val()) || 0))) {
+                            isValidItem = false;
+                            $('#amt').siblings('span.error').css('visibility', 'visible');
+                        }
+                        else {
+                            $('#amt').siblings('span.error').css('visibility', 'hidden');
+                        }
+
+
+
+
+                        if (isValidItem) {
+
+                            var data = {
+                                HeaderId: $('#HeaderId').val().trim(),
+                                HeaderText: $('#HeaderId :selected').text().trim(),
+                                Amount: parseFloat($('#amt').val().trim()),
+                                rid: $('#rid').val()
+
+                            }
+                            $(this).val('Please wait...');
+                            $.ajax({
+                                url: '/MMS/Recieve/AddLinetoRecive',
+                                type: "POST",
+                                data: JSON.stringify(data),
+                                dataType: "JSON",
+                                contentType: "application/json",
+                                success: function (d) {
+                                    //check is successfully save to database
+                                    if (d.status == true) {
+                                        //will send status from server side
+                                        alert('Successfully done.');
+                                        //clear form
+
+                                        $('#billdetail tr:last').after('<tr><td>' + $('#HeaderId :selected').text().trim() + '</td><td><input type=text id=amount' + d.rdd + ' value=' + d.amount + ' ><td><td><a href=#>Delete</a></td></tr>');
+                                        $('#add').val('Add');
+                                    }
+                                    else {
+                                        alert('Failed');
+                                    }
+                                    $('#add').val('Add');
+                                },
+                                error: function () {
+                                    alert('Error. Please try again.');
+                                    $('#add').val('Add');
+                                }
+                            });
+                        }
+
+                    });
+                })
+</script>

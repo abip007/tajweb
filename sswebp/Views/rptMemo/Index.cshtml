@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<iframe id="ifrmreportViewer" style="height:3500px; width:99%;" frameborder="0" scrolling="no"></iframe>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            ReportViewer();
+        });
+    </script>
+    <script>
+    function ReportViewer()
+    {
+
+        url = "rptMemoc.aspx";
+        var myFrame = document.getElementById("ifrmreportViewer");
+        if(myFrame!==null)
+        {
+            if(myFrame.src)
+            {
+                myFrame.src = url;
+            }
+            else if(myFrame.contentWindow==null && myFrame.contentWindow.location!==null)
+            {
+                myFrame.contentWindow.location = url;
+
+            }
+            else
+            {
+                myFrame.setAttribute('src', url);
+            }
+        }
+        return false;
+    }
+
+    </script>
+
+}
+

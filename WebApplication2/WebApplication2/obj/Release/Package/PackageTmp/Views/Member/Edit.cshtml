@@ -1,0 +1,438 @@
+﻿@model WebApplication2.Models.MemberCompanyInfo
+@using WebApplication2.Models
+
+@{
+    ViewBag.Title = "Edit";
+    string imgurl = @Model.memberId + ".jpg";
+    string chk = "";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit", "Member", FormMethod.Post, new { @id = "form", @name = "form", enctype = "multipart/form-data" }))
+{
+
+                @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.memberId)
+    <div id="example-manipulation">
+        <h3>Basic Information</h3>
+        <section>
+            <table width="100%" border="0">
+                <tr>
+                    <td width="50%">
+                        <table width="100%" border="1">
+
+                            <tr>
+                                <td><label for="memberDate">Membership Date *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.membershipDate, "{0:dd/MM/yyyy}")
+                                    @Html.ValidationMessageFor(model => model.membershipDate, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="orgName">Member Id*</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.mid)
+                                    @Html.ValidationMessageFor(model => model.mid, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="orgName">Organization Name *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Organization_Name)
+                                    @Html.ValidationMessageFor(model => model.Organization_Name, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="orgAddress">Organization Address *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Organization_Address)
+                                    @Html.ValidationMessageFor(model => model.Organization_Address, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="orgCell">Phone / Cell No*</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Phone)
+                                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="orgTrade">Trade License *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Trade_License)
+                                    @Html.ValidationMessageFor(model => model.Trade_License, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="orgTIN">TIN NO *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Tin_Number)
+                                    @Html.ValidationMessageFor(model => model.Tin_Number, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="orgVat">VAT No *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Vat_No)
+                                    @Html.ValidationMessageFor(model => model.Vat_No, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                    <td width="50%" valign="top">
+
+                        <table width="100%" border="1">
+                            <tr>
+                                <td width="30%"><label for="orgBArea">Business Area *</label> </td>
+                                <td width="70%">
+                                    @Html.DropDownList("AreaId", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.AreaId, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td width="30%"><label for="orgBType"> Business Type*</label></td>
+                                <td width="70%">
+                                    @Html.DropDownList("btypeid", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.btypeid, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            @*<tr>
+                                <td width="30%"><label for="orgType">Organization Type *</label> </td>
+                                <td width="70%">
+                                    @Html.DropDownList("orgId", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.orgId, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>*@
+                            <tr>
+                                <td width="30%"><label for="memberType">Member Type *</label> </td>
+                                <td width="70%">
+                                    @Html.DropDownList("mtypeId", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.mtypeId, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="incDate">Incorporate Date *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.InCorporationDate)
+                                    @Html.ValidationMessageFor(model => model.InCorporationDate, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="mVoterY">Voter *</label></td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            
+                                          
+                                            <td><input id="isVoter" @(Model.isVoter=="Y" ? "checked": "") name="isVoter" type="radio" value="Y"></td>
+                                            <td>YES</td>
+                                            <td><input id="isVoter" @(Model.isVoter=="N" ? "checked": "") name="isVoter" type="radio" value="N"></td>
+                                            <td>NO</td>
+                                        </tr>
+                                    </table>
+                            </tr>
+                            <tr>
+                                <td><label for="mStatusY">Current Status *</label></td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td><input id="status" @(Model.status=="Y" ? "checked": "") name="status" type="radio" value="Y"></td>
+                                            <td>Active</td>
+                                            <td><input id="status" @(Model.status=="N" ? "checked": "") name="status" type="radio" value="N"></td>
+                                            <td>Inactive</td>
+                                            <td><input id="status" @(Model.status == "P" ? "checked" : "") name="status" type="radio" value="N"></td>
+                                            <td>Delete</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+            <p>(*) Mandatory</p>
+        </section>
+        <h3>Authority Information</h3>
+        <section>
+            <table width="100%" border="0">
+                <tr>
+                    <td width="50%">
+                        <table width="100%" border="1">
+
+                            <tr>
+                                <td><label for="ApplicantName">Applicant Name*</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Applicant_Name)
+                                    @Html.ValidationMessageFor(model => model.Applicant_Name, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="designation">Designation *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Designation)
+                                    @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="fatherName">Father's Name *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Father_Name)
+                                    @Html.ValidationMessageFor(model => model.Father_Name, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="motherName">Mother's Name *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Mother_Name)
+                                    @Html.ValidationMessageFor(model => model.Mother_Name, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="presentadd">Present Address</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Present_address)
+                                    @Html.ValidationMessageFor(model => model.Present_address, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="parmanentadd">Permanent Address *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Permanent_Address)
+                                    @Html.ValidationMessageFor(model => model.Permanent_Address, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="parmanentadd">District *</label></td>
+                                <td>
+                                    @Html.DropDownList("disid", null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.disid, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="autNID">National ID *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.National_Id)
+                                    @Html.ValidationMessageFor(model => model.National_Id, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="autTIN">TIN NO *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Tin_No)
+                                    @Html.ValidationMessageFor(model => model.Tin_No, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label for="autCell">Cell No *</label></td>
+                                <td>
+                                    @Html.EditorFor(model => model.Mobile_No)
+                                    @Html.ValidationMessageFor(model => model.Mobile_No, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            @*<tr>
+                                <td><label for="appptype">Application Type *</label></td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td><input id="appptype" name="appptype" type="radio"></td>
+                                            <td>Voter</td>
+                                            <td><input id="appptypeN" name="appptype" type="radio"></td>
+                                            <td>NOn Voter</td>
+                                        </tr>
+                                    </table>
+                                    </td>
+                            </tr>*@
+                        </table>
+                    </td>
+                    <td width="50%" valign="top">
+
+                        <table width="100%" border="1">
+                            <tr>
+                                <td>
+                                    <img src="~/MemberImg/@imgurl" width="150" alt="Image" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td><label for="autPic">Photograph *</label></td>
+                                <td>
+                                    <input id="file" name="file" type="file">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </section>
+        <h3>Introducer Information</h3>
+        @{
+            if (ViewBag.Introducer!=null)
+            {
+                var introducer = (MemberCompanyInfo)ViewBag.Introducer;
+
+
+                <section>
+                    <table width="100%" border="0">
+                        <tr>
+                            <td width="50%">
+                                <table width="100%" border="1">
+                                    <tr>
+                                        <td width="35%"><label for="intMID">Member ID *</label>  </td>
+                                        <td width="65%">
+                                            <input type="text" name="int_mid" value="@introducer.mid" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="introducerorgName">Organization*</label></td>
+                                        <td>
+                                            <input type="text" name="Int_Organizaion" id="Int_Organizaion" readonly value="@introducer.Organization_Name" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="authorityn">Authority Name *</label></td>
+
+                                        <td>
+                                            
+                                            <input type="text" name="Int_AppName" id="Int_AppName" value="@introducer.Applicant_Name" readonly />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><label for="presentadd">Address</label></td>
+                                        <td>
+                                            <input type="text" readonly id="Int_addr" value="@introducer.Organization_Address" />
+                                        </td>
+                                    </tr>
+                                    @*<tr>
+                                            <td><label for="parmanentadd">Permanent Address *</label></td>
+                                            <td>
+                                                @Html.EditorFor(model => model.Int_Autority_Name)
+                                                @Html.ValidationMessageFor(model => model.Int_Autority_Name, "", new { @class = "text-danger" })
+                                            </td>
+                                        </tr>*@
+
+
+
+                                </table>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </section>
+            }
+            else
+            {
+                <section>
+                    <table width="100%" border="0">
+                        <tr>
+                            <td width="50%">
+                                <table width="100%" border="1">
+                                    <tr>
+                                        <td width="35%"><label for="intMID">Member ID *</label>  </td>
+                                        <td width="65%">
+                                            <input type="text" name="int_mid" id="int_mid" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="introducerorgName">Organization*</label></td>
+                                        <td>
+                                            <input type="text" name="Int_Organizaion" id="Int_Organizaion" readonly />
+                                            @*@Html.EditorFor(model => model.int_organization_name)
+                                                @Html.ValidationMessageFor(model => model.int_organization_name, "", new { @class = "text-danger" })*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="authorityn">Authority Name *</label></td>
+                                        <td>
+                                            @*@Html.EditorFor(model => model.Int_Autority_Name)
+                                                @Html.ValidationMessageFor(model => model.Int_Autority_Name, "", new { @class = "text-danger" })*@
+                                            
+                                            <input type="text" name="Int_AppName" id="Int_AppName" readonly />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><label for="presentadd">Address</label></td>
+                                        <td>
+                                            <input type="text" name="Int_addr" id="Int_addr" readonly />
+                                            @*@Html.EditorFor(model => model.int_Adress)
+                                                @Html.ValidationMessageFor(model => model.Int_Autority_Name, "", new { @class = "text-danger" })*@
+                                        </td>
+                                    </tr>
+                                    @*<tr>
+                                            <td><label for="parmanentadd">Permanent Address *</label></td>
+                                            <td>
+                                                @Html.EditorFor(model => model.Int_Autority_Name)
+                                                @Html.ValidationMessageFor(model => model.Int_Autority_Name, "", new { @class = "text-danger" })
+                                            </td>
+                                        </tr>*@
+
+
+
+                                </table>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </section>
+
+            }
+        }
+    </div>
+    
+}
+<script>
+$("#example-manipulation").steps({
+    headerTag: "h3",
+    bodyTag: "section",
+    enableAllSteps: true,
+    enablePagination: false
+});
+$('#int_mid').change(function () {
+    var memberId = this.value;
+    //alert(Shipid);
+
+    $.getJSON("/Member/GetRecordById",
+        {
+            memberid: memberId
+        },
+        function (data) {
+            //alert(data.Organization_Name);
+            $('#Int_Organizaion').val(data.Organization_Name);
+            $('#Int_AppName').val(data.Applicant_Name);
+            $('#Int_addr').val(data.Adress);
+
+        });
+
+
+});
+</script>
+   
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

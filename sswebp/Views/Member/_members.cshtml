@@ -1,0 +1,73 @@
+﻿@model PagedList.IPagedList<WebApplication2.Models.MemberCompanyInfo>
+@using PagedList.Mvc;
+<div id="memberinfo">
+
+    <table class="table">
+        <tr>
+            <th>
+                Member Id
+            </th>
+            <th>
+                Applicant Name
+            </th>
+            <th>
+                Organizaion
+            </th>
+            <th>
+                Organization Address
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                Status
+            </th>
+
+
+            
+            <th></th>
+
+        </tr>
+
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.mid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Applicant_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Organization_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Organization_Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+
+
+                
+
+
+
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.memberId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.memberId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.memberId })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentMemerid=ViewBag.currentMemerid, currentAppName=ViewBag.currentAppName, CurorgName=ViewBag.CurorgName }))
+</div>

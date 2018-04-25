@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/jquery.steps.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css" />
+    
+    
+    <script src="~/Scripts/jquery.steps.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+    
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("MMS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Member", "Index", "Member")</li>
+                    <li>@Html.ActionLink("Bill", "Index", "BillRegisters")</li>
+                    <li>@Html.ActionLink("Monthly Bill", "Index", "MonthlyBill")</li>
+                    <li>@Html.ActionLink("Collection", "Index", "Recieve")</li>
+                    @*<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Collection <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Collection", "Index", "Recieve")</li>
+                            @*<li>@Html.ActionLink("Mass Collection", "Index", "MassCollection")</li>
+                           
+                        </ul>
+                    </li>*@
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Setup <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Member Type", "Index", "MemberTypes")</li>
+                            <li>@Html.ActionLink("Organization Type", "Index", "OrganizationTypes")</li>
+                            <li>@Html.ActionLink("Area", "Index", "Areas")</li>
+                            <li role="separator" class="divider"></li>
+                            
+                            <li>@Html.ActionLink("Headers", "Index", "Headers")</li>
+                            <li>@Html.ActionLink("Monthly Bill Setup", "Index", "MonthlyBillSetups")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Report <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Dues", "Index", "rptDues")</li>
+                            <li>@Html.ActionLink("Collection", "Index", "rptCollection")</li>
+                            <li>@Html.ActionLink("Recievable", "Index", "rptRecievable")</li>
+                            <li role="separator" class="divider"></li>
+
+                            <li>@Html.ActionLink("Monthly Statement", "Index", "rptMonthlyStatement")</li>
+                            <li>@Html.ActionLink("PartyLedeger", "Index", "Partyledger")</li>
+                            <li>@Html.ActionLink("Dues By Months", "Index", "rptMonthsDue")</li>
+                        </ul>
+                    </li>
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>

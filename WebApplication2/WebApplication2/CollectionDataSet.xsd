@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="CollectionDataSet" targetNamespace="http://tempuri.org/CollectionDataSet.xsd" xmlns:mstns="http://tempuri.org/CollectionDataSet.xsd" xmlns="http://tempuri.org/CollectionDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="MMS" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="MMS (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.MMS.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vwCollectionTableAdapter" GeneratorDataComponentClassName="vwCollectionTableAdapter" Name="vwCollection" UserDataComponentName="vwCollectionTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="MMS (Web.config)" DbObjectName="MMS6.dbo.vwCollection" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT rDate, Amount, HeaderName FROM dbo.vwCollection</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="rDate" DataSetColumn="rDate" />
+              <Mapping SourceColumn="Amount" DataSetColumn="Amount" />
+              <Mapping SourceColumn="HeaderName" DataSetColumn="HeaderName" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="CollectionDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="CollectionDataSet" msprop:Generator_UserDSName="CollectionDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="vwCollection" msprop:Generator_TableClassName="vwCollectionDataTable" msprop:Generator_TableVarName="tablevwCollection" msprop:Generator_TablePropName="vwCollection" msprop:Generator_RowDeletingName="vwCollectionRowDeleting" msprop:Generator_RowChangingName="vwCollectionRowChanging" msprop:Generator_RowEvHandlerName="vwCollectionRowChangeEventHandler" msprop:Generator_RowDeletedName="vwCollectionRowDeleted" msprop:Generator_UserTableName="vwCollection" msprop:Generator_RowChangedName="vwCollectionRowChanged" msprop:Generator_RowEvArgName="vwCollectionRowChangeEvent" msprop:Generator_RowClassName="vwCollectionRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="rDate" msprop:Generator_ColumnVarNameInTable="columnrDate" msprop:Generator_ColumnPropNameInRow="rDate" msprop:Generator_ColumnPropNameInTable="rDateColumn" msprop:Generator_UserColumnName="rDate" type="xs:dateTime" />
+              <xs:element name="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:double" />
+              <xs:element name="HeaderName" msprop:Generator_ColumnVarNameInTable="columnHeaderName" msprop:Generator_ColumnPropNameInRow="HeaderName" msprop:Generator_ColumnPropNameInTable="HeaderNameColumn" msprop:Generator_UserColumnName="HeaderName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

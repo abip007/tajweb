@@ -1,0 +1,61 @@
+﻿@model PagedList.IPagedList<WebApplication2.Models.RecieveMaster>
+@using PagedList.Mvc;
+    <div id="Recive">
+    <table class="table">
+        <tr>
+            <th>
+                Recive ID
+            </th>
+            <th>
+                Organization Name
+            </th>
+            <th>
+                Recieve Date
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+                Remarsk
+            </th>
+            <th>
+                Bill Id
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.rid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemeberCompanyInfo.Organization_Name)
+                </td>
+                <td>
+                    @{
+                        string parameterValue = item.rDate.ToShortDateString();
+                    }
+                    @Html.DisplayFor(modelItem => parameterValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.billId)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.rid }) |
+                    @*@Html.ActionLink("Details", "Details", new { id=item.rid }) |*@
+                    @Html.ActionLink("Delete", "Delete", new { id = item.rid })
+                </td>
+            </tr>
+                        }
+
+    </table>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentMemerid = ViewBag.currentMemerid, currentBillID = ViewBag.currentBillID, CurrsDate = ViewBag.CurrsDate, curreDate = ViewBag.curreDate }))
+</div>

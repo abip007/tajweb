@@ -1,0 +1,50 @@
+﻿@model WebApplication2.Models.BillRegister
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BillRegister</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MemeberCompanyInfo.Organization_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemeberCompanyInfo.Organization_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.paid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.paid)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BillID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

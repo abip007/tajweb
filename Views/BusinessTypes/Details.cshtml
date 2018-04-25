@@ -1,0 +1,26 @@
+﻿@model WebApplication2.Models.BusinessType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BusinessType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.btype)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.btype)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.btypeid }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,82 @@
+﻿@model PagedList.IPagedList<WebApplication2.Models.BillRegister>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+
+<div id="billReg">
+    <input type="checkbox" id="ckbCheckAll" />
+    <label for="ckbCheckAll">Select All</label>
+    @using (Html.BeginForm("Mass", "MassCollection"))
+    {
+    <table class="table">
+        <tr>
+            <th>
+                Member Id
+            </th>
+            <th>
+                Organization Name
+            </th>
+            <th>
+                Bill No
+            </th>
+            <th>
+                Bill Date
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+                Remarks
+            </th>
+            <th>
+                Paid
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+              
+                <td>
+                    <input type="checkbox" name="BillID" id="BillID" value="@item.BillID" />
+                    @Html.DisplayFor(modelItem => item.MemeberCompanyInfo.mid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemeberCompanyInfo.Organization_Name)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.BillID)</td>
+                <td>
+                    @{
+                        string parameterValue = item.BillDate.ToShortDateString();
+                    }
+                    @Html.DisplayFor(modelItem => parameterValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.total)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.paid)
+                </td>
+               
+            </tr>
+                        }
+
+    </table>
+    <input type="date" required id="edate" name="edate" />
+    <input type="submit" value="process" />
+                        }
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentMemerid = ViewBag.currentMemerid, currentBillID = ViewBag.currentBillID, CurrsDate = ViewBag.CurrsDate, curreDate = ViewBag.curreDate }))
+</div>
+<script>
+    $(function () {
+        var $tblChkBox = $("#billReg input:checkbox");
+        $("#ckbCheckAll").on("click", function () {
+            $($tblChkBox).prop('checked', $(this).prop('checked'));
+        });
+    });
+</script>

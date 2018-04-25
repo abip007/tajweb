@@ -1,0 +1,39 @@
+﻿
+@model PagedList.IPagedList<WebApplication2.Models.RecieveMaster>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+   @using (Ajax.BeginForm(
+                                                        new AjaxOptions
+                                                        {
+                                                            HttpMethod = "post",
+                                                            InsertionMode = InsertionMode.Replace,
+                                                            UpdateTargetId = "Recive"
+
+                                                        }
+                                                        ))
+    {
+        <label>Recieve Id:</label> <input type="search" name="rid" id="rid" /><br />
+        <label>MemberId:</label> <input type="search" name="MemberId" id="MemberId" /><br />
+        <label>Start Date:</label>  <input type="text" name="sDate" id="sDate" /><br />
+        <label>End Date:</label>   <input type="text" name="eDate" id="eDate" /><br />
+        <input type="submit" name="submit" value="Search" />
+    }
+    @Html.Partial("_Recieve", Model)
+    <script>
+    $(function () {
+        $('#sDate').datepicker({
+            dateFormat: 'dd-mm-yy'
+        });
+        $('#eDate').datepicker({
+            dateFormat: 'dd-mm-yy'
+        });
+    });
+    </script>

@@ -1,0 +1,36 @@
+USE [MMS]
+GO
+/****** Object:  StoredProcedure [dbo].[NumberOfUnpaidBillByCustomer]    Script Date: 4/24/2018 5:48:24 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[NumberOfUnpaidBillByCustomer]
+	@num int
+	as
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	create table #MemberBalance
+(
+mid [varchar](50),
+Organization_Name [varchar](100),
+Organization_Addresse [varchar](200),
+Phone [varchar](50),
+Amount [float]
+
+)
+
+
+    -- Insert statements for procedure here
+		insert into #MemberBalance  select c.mid,c.[Organization_Name],Organization_Address,c.Phone, isnull((select sum(b.Amount) as BillAmount  from [dbo].[BillRegister] a, [dbo].[Billdetail] b where a.BillId=b.BillId and c.memberId=a.MemberId),0) -isnull((select sum(b.Amount) as CollectionAmount from [dbo].[RecieveMaster] a, [dbo].[RecieveDetail] b where a.rid=b.rid and c.memberId=a.memberId),0) as bal   from [dbo].[MemberCompanyInfo] c where (c.status='Y' or c.status='N')
+		--select sum(amount),mid,Organization_Name from vwNumberofUnPaidBillByCustomer where Paid='N'  and  MemberId in (select MemberId from BillRegister where Paid='N' group by MemberId having count(MemberId)=@num) group by mid,Organization_Name
+		select * from #MemberBalance where Amount=@num*100
+		drop table #MemberBalance
+END
